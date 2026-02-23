@@ -7,8 +7,8 @@ class F1AudioLab:
     def __init__(self, sr=44100):
         self.sr = sr
 
+    """FFTベースで1/fスペクトルを持つピンクノイズを生成"""
     def generate_pink_noise(self, duration):
-        """FFTベースで1/fスペクトルを持つピンクノイズを生成"""
         n_samples = int(self.sr * duration)
         # 白色ノイズを生成
         white_noise = np.random.randn(n_samples)
@@ -26,8 +26,8 @@ class F1AudioLab:
         pink_noise = np.fft.irfft(fft_pink, n=n_samples)
         return pink_noise / np.max(np.abs(pink_noise))
 
-    def apply_f1_to_voice(self, voice_data, pink_noise):
-        """音声のエンベロープを抽出し、1/fノイズに適用する(簡易Vocoder)"""
+    """音声のエンベロープを抽出し、1/fノイズに適用する(簡易Vocoder)"""
+    def apply_f1_to_voice(self, voice_data, pink_noise):        
         # 長さを合わせる
         min_len = min(len(voice_data), len(pink_noise))
         voice = voice_data[:min_len]
@@ -48,8 +48,8 @@ class F1AudioLab:
         # 時間領域に復元
         return librosa.istft(combined_stft)
 
+    """テキストからTTS音声を生成し、1/f加工を施す"""
     def text_to_f1_speech(self, text, output_file="f1_speech.wav"):
-        """テキストからTTS音声を生成し、1/f加工を施す"""
         engine = pyttsx3.init()
         temp_file = "temp_tts.wav"
         engine.save_to_file(text, temp_file)

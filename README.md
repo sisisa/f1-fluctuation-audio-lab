@@ -1,73 +1,38 @@
 # f1-fluctuation-audio-lab
 
-Python を用いて **1/f ゆらぎ（f/1 ゆらぎ）** の音声を生成し、  
-- 純粋な 1/f ノイズ  
-- テキストから生成した音声を 1/f ゆらぎ化した音  
-- 録音した地声を 1/f ゆらぎ化した音  
+1/fゆらぎ（ピンクノイズ）を音声信号処理に応用し、癒やしの質感を付与する実験的DSPプロジェクト。
 
-を作るための実験的オーディオ DSP / AI プロジェクトです。
+## 設計思想
+本プロジェクトは、自然界に存在する「1/fゆらぎ」をデジタル音声に統合することを目的にしています。
+1. **数学的生成**: パワー則 $S(f) \propto 1/f$ に基づく厳密なノイズ生成。
+2. **クロスシンセシス**: 音声のフォルマントと1/fノイズをSTFT領域で結合。
+3. **客観的検証**: PSD（パワースペクトル密度）による特性の可視化。
 
-1/f ノイズ生成ライブラリ（例: [pyplnoise][pyplnoise]）と  
-音声信号処理ツール（例: [librosa][librosa]）を組み合わせ、  
-ポートフォリオとして「アルゴリズム設計〜実装〜可視化」までを一通り見せることを目的としています。
-
----
-
-## Features
-
-- ✅ Python での 1/f (pink) ノイズ生成
-  - `pyplnoise.PinkNoise` を用いたパワー則ノイズ生成 [pyplnoise]
-  - FFT ベースの 1/f スペクトル成形によるノイズ生成 [pink-noise-blog]
-
-- ✅ テキスト → 1/f ゆらぎ音声
-  - オフライン TTS (例: `pyttsx3`) による音声生成 [pyttsx3]
-  - STFT ベースの簡易 vocoder で「声のエンベロープ × 1/f ノイズ」を合成 [librosa]
-
-- ✅ 地声録音 → 1/f ゆらぎ音声
-  - マイク録音（`sounddevice`）または既存 WAV の読み込み
-  - 声のフォルマント・リズムを保ちつつ、1/f ゆらぎ質感を付与
-
-- ✅ 分析用ノートブック
-  - パワースペクトル密度 (PSD) のプロット
-  - 1/f 特性の簡易検証
-  - 通常音声 vs 1/f ゆらぎ音声の比較実験
-
----
+## 使い方
+### 1. 環境構築
+```bash
+pip install -r requirements.txt
+```
 
 ## Project Structure
 
 ```text
+
 f1-fluctuation-audio-lab/
-├── README.md
-├── requirements.txt
+├── README.md              # プロジェクト概要と使用方法（改良版）
+├── requirements.txt       # 依存ライブラリ
 ├── src/
 │   └── f1_fluctuation/
 │       ├── __init__.py
-│       ├── core/
-│       │   ├── noise_generators.py    # 1/f ノイズ生成（pyplnoise / FFT）
-│       │   ├── vocoder.py             # STFT ベースの再合成処理
-│       │   └── utils.py               # 共通ユーティリティ
-│       ├── pipelines/
-│       │   ├── text_to_f1.py          # テキスト → 1/f ゆらぎパイプライン
-│       │   └── voice_to_f1.py         # 地声 → 1/f ゆらぎパイプライン
-│       └── cli/
-│           └── main.py                # CLI エントリポイント
+│       ├── generator.py   # 1/fノイズ生成アルゴリズム
+│       ├── processor.py   # 音声合成・ボコーダー処理
+│       └── utils.py       # ファイル入出力・録音ユーティリティ
 ├── examples/
-│   ├── generate_pure_f1_noise.py
-│   ├── text_to_f1_example.py
-│   └── voice_to_f1_example.py
+│   ├── generate_from_text.py  # TTS連携サンプル
+│   └── generate_from_mic.py   # 録音連携サンプル
 ├── notebooks/
-│   ├── 01_spectrum_analysis.ipynb
-│   └── 02_vocoder_experiments.ipynb
-├── data/
-│   ├── input/
-│   │   ├── sample_texts/
-│   │   └── sample_recordings/
-│   └── output/
-│       ├── noise/
-│       ├── text_to_f1/
-│       └── voice_to_f1/
+│   └── analysis_psd.ipynb     # パワースペクトル密度（PSD）分析
 └── tests/
-    ├── test_noise_generators.py
-    ├── test_vocoder.py
-    └── test_pipelines.py
+    └── test_generator.py      # ユニットテスト
+
+```
