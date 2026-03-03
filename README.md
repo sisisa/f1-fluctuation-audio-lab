@@ -29,16 +29,16 @@
 ```text
 f1-fluctuation-audio-lab/
 ├── src/
-│   ├── contents/             # 生成したい音声の台本（JSON）を入れるフォルダ
+│   ├── contents/             # 生成したい音声の台本(JSON)を入れるフォルダ
 │   │   └── sample_episode.json
 │   └── f1_fluctuation/
 │       ├── generator.py      # 1/fノイズ生成の専用機能
 │       ├── processor.py      # 音声の周波数・位相を処理する専用機能
 │       └── utils.py          # ファイル入出力の便利ツール群
 ├── examples/
-│   ├── generate_batch.py     # フォルダ内の台本を全自動で音声化するスクリプト
-│   └── generate_from_text.py # 単一のテキストから生成する基本スクリプト
-│   └── generate_from_mic.py # 人の音声から生成する基本スクリプト(まだ未着手)
+│   ├── generate_batch.py     # フォルダ内の台本を全自動で音声化
+│   └── generate_from_text.py # 単一のテキストから音声を生成
+│   └── generate_from_mic.py # 人の音声から音声を生成(まだ未着手)
 ├── requirements.txt          # 必要なライブラリの一覧
 └── README.md                 # 本ドキュメント
 
