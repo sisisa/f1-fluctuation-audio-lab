@@ -4,3 +4,4 @@ librosa
 pyplnoise
 pyttsx3
 sounddevice
+gTTS
